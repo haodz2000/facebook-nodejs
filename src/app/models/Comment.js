@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema();
-
-const CommentSchema = new Schema({
+const CommentSchema = new mongoose.Schema({
     userId:{
         type: String,
         required: true,
@@ -15,7 +13,8 @@ const CommentSchema = new Schema({
         type: String,
     },
     image:{
-        type: String
+        type: String,
+        default: ""
     }
 },{
     timestamps: true
