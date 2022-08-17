@@ -1,5 +1,6 @@
 const Post = require("../models/Post")
 const User = require("../models/User")
+const Comment = require('../models/Comment')
 class PostController{
     async store(req,res){
         try {
@@ -12,24 +13,29 @@ class PostController{
         }
     }
 
-    async gets(req,res){
+    async getTimeLine(req,res){
         try {
             const currentUser = await User.findById(req.params.userId);
             const posts = await Post.find({
                 userId: req.params.userId
             });
-            const friendPosts = await Promise.all(
-                currentUser.friends.map((friendId)=>{
-                    return Post.find({userId:friendId})
-                })
-            );
             const followingsPosts = await Promise.all(
-                currentUser.followings.map((userId)=>{
-                    return Post.find({userId:userId})
+                currentUser.followings.map((id)=>{
+                    return Post.find({userId:id})
                 })
             );
-            res.status(200).json({data:posts.concat(...friendPosts,...followingsPosts),msg:"Success"})
+            res.status(200).json({data:posts.concat(...followingsPosts),msg:"Success"})
         } catch (error) {
+            res.status(500).json(error)
+        }
+    }
+    async getPostsUser(req,res){
+        try{
+            const posts = await Post.find({
+                userId : req.params.userId
+            })
+            res.status(200).json({data:posts,msg:"Success"})
+        }catch(error){
             res.status(500).json(error)
         }
     }
@@ -55,9 +61,14 @@ class PostController{
         }
     }
 
-    async comment(req,res){
+    async loadComment(req,res){
         try{
-            res.status(200).json(req.body)
+            if(req.body.postId){
+                const comments = await Comment.find({
+                    postId: req.body.postId
+                })
+                res.status(200).json({data:comments})
+            }
         }catch(error){
             res.status(500).json(error)
         }

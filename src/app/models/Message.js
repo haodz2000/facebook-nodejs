@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema();
-
-const MessageSchema = new Schema({
+const MessageSchema = new mongoose.Schema({
     conversationId: {
         type: String,
         required: true
@@ -11,7 +9,7 @@ const MessageSchema = new Schema({
         type: String,
         required: true
     },
-    receivedId:{
+    receiverId:{
         type: String,
         required: true   
     },

@@ -8,8 +8,10 @@ class CommentController{
                     const cmt = await newComment.save();
                     res.status(200).json({data:cmt,msg:"Success"})
                 }
+            }else{
+                res.status(200).json({msg:"Error"})
             }
-            res.status(200).json({msg:"Error"})
+            
         }catch(error){
             res.status(500).json(error)
         }

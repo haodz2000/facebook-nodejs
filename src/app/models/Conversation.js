@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema();
-
-const ConversationSchema = new Schema({
+const ConversationSchema = new mongoose.Schema({
     members:{
         type: Array,
         default: []
@@ -20,7 +18,7 @@ const ConversationSchema = new Schema({
     },
     status :{
         type: Boolean,
-        default: true
+        default: false
     }
 },{
     timestamps: true
