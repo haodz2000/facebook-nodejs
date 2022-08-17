@@ -22,9 +22,9 @@ app.use(morgan('common'))
 
 //route
 route(app)
-const io = new Server(8900,{
+const io = new Server(process.env.PORT||8900,{
     cors:{
-        origin: "http://localhost:3000"
+        origin: "*"
     }
 })
 
