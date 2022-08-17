@@ -1,4 +1,5 @@
 const express = require('express');
+const {createServer} = require("http")
 const {Server} = require("socket.io")
 const morgan = require('morgan');
 const helmet = require('helmet')
@@ -22,7 +23,8 @@ app.use(morgan('common'))
 
 //route
 route(app)
-const io = new Server(process.env.PORT||8900,{
+const httpServer = createServer(app)
+const io = new Server(httpServer,{
     cors:{
         origin: "*"
     }
@@ -49,6 +51,6 @@ io.on("connection",(socket)=>{
 })
 
 
-app.listen(process.env.PORT||5000,()=>{
+httpServer.listen(process.env.PORT||5000,()=>{
     console.log("Server is running")
 })
